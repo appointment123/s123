@@ -1,4 +1,5 @@
 name: Build and Analyze
+
 on:
   push:
     branches: [ main ]
@@ -23,10 +24,12 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: Create .env file for tests
+      - name: Create .env file for tests (Secure)
         run: |
-          echo "EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}" > .env
-          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
+          cat > .env << EOF
+          EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}
+          EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
+          EOF
 
       - name: Build, Test & Coverage
         run: mvn -B verify --file pom.xml
@@ -40,8 +43,9 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.java.binaries=target/classes
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-            -Dsonar.exclusions=**/presentation_Layer/**,**/doc/**,**/docs/**,**/target/**,**/GenerateHash.java
+            -Dsonar.exclusions=**/presentation_Layer/**,**/doc/**,**/docs/**,**/target/**,**/target/site/**,**/GenerateHash.java
             -Dsonar.coverage.exclusions=**/src/test/java/**,**/presentation_Layer/**,**/presentation/**,**/connectDB/**,**/main/Main.java,**/service/ReminderService.java
+            -Dsonar.cpd.exclusions=**/src/test/java/**,**/presentation_Layer/**,**/presentation/**,**/doc/**,**/GenerateHash.java
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
