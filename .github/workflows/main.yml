@@ -20,22 +20,7 @@ jobs:
           java-version: 17
           distribution: 'zulu'
 
-      - name: Debug - Show Project Structure
-        run: |
-          echo "=== Root Files ==="
-          ls -la
-          echo "=== All Java Files ==="
-          find . -name "*.java" | sort
-          echo "=== Total Java Files ==="
-          find . -name "*.java" | wc -l
-
-      - name: Cache Maven
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-
-      - name: Build and analyze with SonarCloud
+      - name: Build and Sonar Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
@@ -43,6 +28,6 @@ jobs:
             -Dsonar.projectKey=appointment123_s123 \
             -Dsonar.organization=appointment123-1 \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.sources=. \
-            -Dsonar.java.binaries=target/classes \
-            -Dsonar.exclusions=**/target/**,**/*Test.java,**/*Tests.java,.github/**,**/*.md,**/README*
+            -Dsonar.sources=src/main/java \
+            -Dsonar.tests=src/test/java \
+            -Dsonar.java.binaries=target/classes
