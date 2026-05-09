@@ -5,7 +5,6 @@
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>appointment_scheduling3</groupId>
     <artifactId>appointment_scheduling3</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -19,16 +18,14 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- SonarCloud Properties -->
         <sonar.organization>appointment123-1</sonar.organization>
         <sonar.projectKey>appointment123_s123</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
+        
         <sonar.sources>src/main/java</sonar.sources>
-        <sonar.java.binaries>target/classes</sonar.java.binaries>
-        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.java.binaries>${project.build.directory}/classes</sonar.java.binaries>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
-        <!-- Exclusions -->
         <sonar.exclusions>
             **/presentation_Layer/**,
             **/Persistence_Layer/**,
@@ -48,7 +45,6 @@
     </properties>
 
     <dependencies>
-        <!-- Main Dependencies -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
@@ -61,7 +57,6 @@
             <version>5.2.2</version>
         </dependency>
 
-        <!-- Test Dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -86,26 +81,18 @@
 
     <build>
         <plugins>
-            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
 
-            <!-- Surefire (Tests) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
             </plugin>
 
-            <!-- JaCoCo Coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -127,12 +114,17 @@
                             <formats>
                                 <format>XML</format>
                             </formats>
-                            <outputDirectory>target/site/jacoco</outputDirectory>
+                            <outputDirectory>${project.build.directory}/site/jacoco</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.11.0.3922</version>
+            </plugin>
         </plugins>
     </build>
-
 </project>
