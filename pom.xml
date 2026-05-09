@@ -18,15 +18,16 @@
         <sonar.projectKey>appointment123_s123</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         
-        <!-- مهم: لأن مشروعك مش في الهيكل القياسي -->
+        <!-- الحل الرئيسي لأن الهيكل غير قياسي -->
         <sonar.sources>.</sonar.sources>
         <sonar.java.binaries>target/classes</sonar.java.binaries>
         
-        <!-- JaCoCo Coverage Report -->
+        <!-- Coverage -->
         <sonar.coverage.jacoco.xmlReportPaths>
             target/site/jacoco/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
         
+        <!-- Exclusions -->
         <sonar.exclusions>
             **/target/**,
             **/*Test.java,
@@ -34,12 +35,12 @@
             **/test/**,
             .github/**,
             README*,
-            *.md
+            *.md,
+            **/node_modules/**
         </sonar.exclusions>
     </properties>
 
     <dependencies>
-        <!-- Test Dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -64,8 +65,6 @@
             <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Other dependencies -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
@@ -80,7 +79,6 @@
 
     <build>
         <plugins>
-            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -91,14 +89,13 @@
                 </configuration>
             </plugin>
 
-            <!-- Surefire Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
 
-            <!-- 🔥 JaCoCo Plugin - Coverage -->
+            <!-- JaCoCo Coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -106,16 +103,12 @@
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
+                        <goals><goal>prepare-agent</goal></goals>
                     </execution>
                     <execution>
                         <id>report</id>
                         <phase>verify</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
+                        <goals><goal>report</goal></goals>
                     </execution>
                 </executions>
             </plugin>
