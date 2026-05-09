@@ -10,21 +10,6 @@ jobs:
     name: Build and SonarCloud Scan
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: appointmentdb
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,43 +21,27 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: 'maven'
 
       - name: Create .env file for tests
         run: |
           echo "EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}" > .env
           echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
 
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
       - name: Build, Test & Coverage
         run: mvn -B verify --file pom.xml
-        env:
-          DB_URL: jdbc:postgresql://localhost:5432/appointmentdb
-          DB_USER: postgres
-          DB_PASSWORD: postgres
-
-      - name: Copy Dependencies for Sonar
-        run: mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v2
         with:
           args: >
-            -Dsonar.projectKey=sana-noora_Appoinmentsystem
-            -Dsonar.organization=sana-noora
+            -Dsonar.projectKey=schadule-app2026
+            -Dsonar.organization=s123
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.java.binaries=target/classes
-            -Dsonar.java.libraries=target/dependency/*.jar
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-            -Dsonar.exclusions=**/doc/**,**/docs/**,**/target/site/**,**/GenerateHash.java
-            -Dsonar.coverage.exclusions=**/src/test/java/**,**/doc/**,**/GenerateHash.java,**/presentation/**,**/connectDB/**,**/main/Main.java,**/service/ReminderService.java
-            -Dsonar.cpd.exclusions=**/src/test/java/**,**/doc/**,**/GenerateHash.java,**/presentation/**
+            -Dsonar.exclusions=**/presentation_Layer/**,**/doc/**,**/docs/**,**/target/**,**/GenerateHash.java
+            -Dsonar.coverage.exclusions=**/src/test/java/**,**/presentation_Layer/**,**/presentation/**,**/connectDB/**,**/main/Main.java,**/service/ReminderService.java
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
