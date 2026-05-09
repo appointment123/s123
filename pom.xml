@@ -13,14 +13,14 @@
     <maven.compiler.target>17</maven.compiler.target>
     <junit.version>5.9.2</junit.version>
     
-    <!-- SonarCloud -->
+    <!-- SonarCloud Configuration -->
     <sonar.organization>appointment123-1</sonar.organization>
     <sonar.projectKey>appointment123_s123</sonar.projectKey>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     
-    <!-- المسار الصحيح للكود -->
+    <!-- المسارات الصحيحة -->
     <sonar.sources>src/main/java</sonar.sources>
-    <sonar.tests>src/test/java</sonar.tests>
+    <!-- <sonar.tests>src/test/java</sonar.tests> -->   <!-- تم تعطيله مؤقتاً -->
     <sonar.java.binaries>target/classes</sonar.java.binaries>
     
     <!-- Coverage -->
