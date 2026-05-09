@@ -14,6 +14,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug - Show actual structure
+        run: |
+          echo "Current Directory:"
+          pwd
+          echo "=== Files and Folders ==="
+          ls -la
+          echo "=== All Java files ==="
+          find . -name "*.java" | head -50
+          echo "Total Java files found:"
+          find . -name "*.java" | wc -l
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -28,8 +39,6 @@ jobs:
             -Dsonar.projectKey=appointment123_s123 \
             -Dsonar.organization=appointment123-1 \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.sources=src/main/java \
+            -Dsonar.sources=. \
             -Dsonar.java.binaries=target/classes \
-            -Dsonar.java.source=17 \
-            -Dsonar.inclusions=**/*.java \
-            -Dsonar.exclusions=**/target/**,**/*Test.java
+            -Dsonar.exclusions=**/target/**,**/*Test.java,**/*.test.*,**/test/**
