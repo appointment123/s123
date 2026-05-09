@@ -32,12 +32,12 @@ jobs:
           EOF
 
       - name: Build, Test & Generate Coverage
-        run: mvn clean verify -B -f appointment_scheduling3/pom.xml
+        run: mvn clean verify -B
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v2
         with:
-          projectBaseDir: appointment_scheduling3
+          projectBaseDir: .
           args: >
             -Dsonar.projectKey=appointment123_s123
             -Dsonar.organization=appointment123-1
@@ -49,4 +49,4 @@ jobs:
             -Dsonar.coverage.exclusions=**/src/test/java/**,**/presentation_Layer/**,**/Persistence_Layer/**,**/Domain_Layer/**
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}00
