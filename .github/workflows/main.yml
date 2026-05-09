@@ -20,7 +20,13 @@ jobs:
           java-version: 17
           distribution: 'zulu'
 
-      - name: Build and analyze with SonarCloud
+      - name: Debug Structure
+        run: |
+          ls -la
+          echo "=== Java Files ==="
+          find . -name "*.java" | head -30
+
+      - name: Build and Sonar Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
@@ -28,6 +34,5 @@ jobs:
             -Dsonar.projectKey=appointment123_s123 \
             -Dsonar.organization=appointment123-1 \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.sources=src/main/java \
-            -Dsonar.java.binaries=target/classes \
-            -Dsonar.exclusions=**/target/**,**/*Test.java,**/*Tests.java
+            -Dsonar.sources=. \
+            -Dsonar.exclusions=**/target/**
