@@ -2,9 +2,9 @@ name: Build and Analyze
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -24,24 +24,27 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: Create .env file for tests
+      - name: Create .env file for tests (Secure)
         run: |
           cat > .env << EOF
           EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}
           EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
           EOF
 
-      - name: Build, Test & SonarCloud Analysis
+      - name: Build, Test & Coverage
+        run: mvn -B clean verify --file pom.xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v2
+        with:
+          args: >
+            -Dsonar.projectKey=appointment123_s123
+            -Dsonar.organization=appointment123-1
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.java.binaries=target/classes
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+            -Dsonar.exclusions=**/presentation_Layer/**,**/target/**,**/doc/**,**/docs/**,**/GenerateHash.java
+            -Dsonar.coverage.exclusions=**/src/test/java/**,**/presentation_Layer/**,**/presentation/**,**/connectDB/**,**/main/Main.java,**/service/ReminderService.java
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # نستخدم -f لتحديد ملف الـ pom بدقة لتجنب أخطاء المسارات
-          mvn -B clean verify sonar:sonar \
-            -f appointment_scheduling3/pom.xml \
-            -Dsonar.projectKey=appointment123_s123 \
-            -Dsonar.organization=appointment123-1 \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.java.binaries=**/target/classes \
-            -Dsonar.exclusions="**/presentation_Layer/**,**/target/**,**/doc/**,**/docs/**,**/GenerateHash.java,**/Ù…Ø¬Ù„Ø¯ Ø¬Ø¯ÙŠØ¯/**" \
-            -Dsonar.coverage.exclusions="**/src/test/java/**,**/presentation_Layer/**,**/presentation/**,**/connectDB/**,**/main/Main.java,**/service/ReminderService.java"
