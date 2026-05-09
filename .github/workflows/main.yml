@@ -2,13 +2,9 @@ name: SonarCloud Analysis
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [ main, master ]
   pull_request:
-    branches:
-      - main
-      - master
+    branches: [ main, master ]
 
 jobs:
   build-and-analyze:
@@ -19,7 +15,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # مهم لـ SonarCloud
+          fetch-depth: 0
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -28,26 +24,27 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: Create .env file for tests
+      - name: Create .env file
         run: |
           cat > .env << EOF
           EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}
           EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
           EOF
 
-      - name: Build, Test & Generate Coverage Report
-        run: mvn clean verify -B -DskipTests=false
+      - name: Build, Test & Generate Coverage
+        run: mvn clean verify -B -f appointment_scheduling3/pom.xml
 
-      - name: Run SonarCloud Analysis
+      - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v2
         with:
+          projectBaseDir: appointment_scheduling3
           args: >
             -Dsonar.projectKey=appointment123_s123
             -Dsonar.organization=appointment123-1
             -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=src/main/java
             -Dsonar.java.binaries=target/classes
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-            -Dsonar.sources=src/main/java
             -Dsonar.exclusions=**/presentation_Layer/**,**/target/**,**/doc/**,**/docs/**,**/*.sql
             -Dsonar.coverage.exclusions=**/src/test/java/**,**/presentation_Layer/**,**/Persistence_Layer/**,**/Domain_Layer/**
         env:
