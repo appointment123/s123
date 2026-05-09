@@ -1,4 +1,4 @@
-name: SonarQube
+name: SonarQube Analysis
 
 on:
   push:
@@ -38,6 +38,7 @@ jobs:
 
       - name: Build and analyze
         env:
+          # هذا السطر سيعمل الآن لأن التوكن أصبح في Repository Secrets
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
