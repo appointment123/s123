@@ -12,30 +12,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # تثبيت الإصدار باستخدام الـ SHA لضمان الأمان العالي
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@8df10395026bab3058497ee3e89b47972a585e02 # v4.5.0
         with:
-          distribution: temurin
+          distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
 
+      # حل ثغرة "Avoid expanding secrets in a run block"
       - name: Create .env file for tests (Secure)
+        env:
+          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: |
           cat > .env << EOF
-          EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}
-          EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_USERNAME=$EMAIL_USERNAME
+          EMAIL_PASSWORD=$EMAIL_PASSWORD
           EOF
 
       - name: Build, Test & Coverage
         run: mvn -B clean verify --file pom.xml
 
+      # حل ثغرة "Use full commit SHA hash for this dependency"
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v2
+        uses: SonarSource/sonarqube-scan-action@e280fd214c51475586616a18d184545307406a4a # v2.3.0
         with:
           args: >
             -Dsonar.projectKey=appointment123_s123
