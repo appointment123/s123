@@ -19,7 +19,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- SonarCloud -->
+        <!-- SonarCloud Properties -->
         <sonar.organization>appointment123-1</sonar.organization>
         <sonar.projectKey>appointment123_s123</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -31,11 +31,12 @@
         <!-- Exclusions -->
         <sonar.exclusions>
             **/presentation_Layer/**,
+            **/Persistence_Layer/**,
+            **/Domain_Layer/**,
+            **/target/**,
             **/doc/**,
             **/docs/**,
-            **/target/**,
-            **/*.sql,
-            **/JRE System Library/**
+            **/*.sql
         </sonar.exclusions>
 
         <sonar.coverage.exclusions>
@@ -85,6 +86,7 @@
 
     <build>
         <plugins>
+            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -96,13 +98,14 @@
                 </configuration>
             </plugin>
 
+            <!-- Surefire (Tests) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
             </plugin>
 
-            <!-- JaCoCo -->
+            <!-- JaCoCo Coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -110,14 +113,20 @@
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
-                        <goals><goal>prepare-agent</goal></goals>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
                     </execution>
                     <execution>
                         <id>report</id>
                         <phase>verify</phase>
-                        <goals><goal>report</goal></goals>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
                         <configuration>
-                            <formats><format>XML</format></formats>
+                            <formats>
+                                <format>XML</format>
+                            </formats>
                             <outputDirectory>target/site/jacoco</outputDirectory>
                         </configuration>
                     </execution>
