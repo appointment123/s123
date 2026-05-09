@@ -13,23 +13,24 @@
         <maven.compiler.target>17</maven.compiler.target>
         <junit.version>5.9.2</junit.version>
         
-        <!-- SonarCloud Configuration -->
+        <!-- إعدادات SonarCloud -->
         <sonar.organization>appointment123-1</sonar.organization>
         <sonar.projectKey>appointment123_s123</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         
-        <!-- الحل الرئيسي لأن الهيكل غير قياسي -->
+        <!-- التعامل مع الهيكل غير القياسي -->
         <sonar.sources>.</sonar.sources>
         <sonar.java.binaries>target/classes</sonar.java.binaries>
         
-        <!-- تحديد مسار التقرير بدقة -->
-        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <!-- مسار تقرير التغطية لضمان قراءته من قبل السونار -->
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         
-        <!-- استثناءات التحليل -->
+        <!-- استثناء طبقة العرض من التحليل -->
         <sonar.exclusions>**/presentation_Layer/**</sonar.exclusions>
     </properties>
 
     <dependencies>
+        <!-- اختبارات JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -42,6 +43,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- مكتبات مساعدة للاختبارات -->
         <dependency>
             <groupId>uk.org.webcompere</groupId>
             <artifactId>system-stubs-jupiter</artifactId>
@@ -54,6 +56,7 @@
             <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
+        <!-- مكتبات إضافية للمشروع -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
@@ -68,6 +71,7 @@
 
     <build>
         <plugins>
+            <!-- بلجن المترجم -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -78,13 +82,14 @@
                 </configuration>
             </plugin>
 
+            <!-- بلجن تشغيل الاختبارات -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
 
-            <!-- JaCoCo Coverage -->
+            <!-- بلجن JaCoCo لتوليد تقارير التغطية (الأهم للسونار) -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -102,7 +107,6 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                        <!-- تأكيد توليد ملف XML للسونار -->
                         <configuration>
                             <formats>
                                 <format>XML</format>
