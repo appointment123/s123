@@ -2,17 +2,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>appointment_scheduling3</groupId>
   <artifactId>appointment_scheduling3</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-
+  
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <junit.version>5.9.2</junit.version>
+    
+    <!-- ✅ SonarCloud Configuration (مصحح) -->
     <sonar.organization>appointment123-1</sonar.organization>
-    <sonar.projectKey>appointment123_s1230</sonar.projectKey>
+    <sonar.projectKey>appointment123_s123</sonar.projectKey>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
 
@@ -30,7 +31,6 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-
     <!-- System Stubs -->
     <dependency>
       <groupId>uk.org.webcompere</groupId>
@@ -38,7 +38,6 @@
       <version>2.1.7</version>
       <scope>test</scope>
     </dependency>
-
     <!-- Mockito -->
     <dependency>
       <groupId>org.mockito</groupId>
@@ -46,14 +45,12 @@
       <version>5.10.0</version>
       <scope>test</scope>
     </dependency>
-
     <!-- Jakarta Mail -->
     <dependency>
       <groupId>com.sun.mail</groupId>
       <artifactId>jakarta.mail</artifactId>
       <version>2.0.1</version>
     </dependency>
-
     <!-- Dotenv -->
     <dependency>
       <groupId>io.github.cdimascio</groupId>
@@ -74,14 +71,12 @@
           <target>17</target>
         </configuration>
       </plugin>
-
       <!-- Tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.1.2</version>
       </plugin>
-
       <!-- JaCoCo -->
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -104,5 +99,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>
