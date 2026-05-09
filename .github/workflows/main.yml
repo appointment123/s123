@@ -20,13 +20,13 @@ jobs:
           java-version: 17
           distribution: 'zulu'
 
-      - name: Cache Maven packages
+      - name: Cache Maven
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
 
-      - name: Build and Sonar Analysis
+      - name: Build and analyze with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
@@ -36,4 +36,4 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.sources=. \
             -Dsonar.java.binaries=target/classes \
-            -Dsonar.exclusions=**/target/**,**/*Test.java,**/*Tests.java
+            -Dsonar.exclusions=**/target/**,**/*Test.java,**/*Tests.java,.github/**,**/README*
