@@ -12,6 +12,9 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <junit.version>5.9.2</junit.version>
+ <sonar.organization>appointment123-1</sonar.organization> 
+<sonar.projectKey>appointment123_s123</sonar.projectKey> 
+<sonar.host.url>https://sonarcloud.io</sonar.host.url> 
   </properties>
 
   <dependencies>
