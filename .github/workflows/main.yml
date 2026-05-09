@@ -20,7 +20,7 @@ jobs:
           java-version: 17
           distribution: 'zulu'
 
-      - name: Build and Sonar Analysis
+      - name: Build and analyze with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
@@ -29,5 +29,5 @@ jobs:
             -Dsonar.organization=appointment123-1 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.sources=src/main/java \
-            -Dsonar.tests=src/test/java \
-            -Dsonar.java.binaries=target/classes
+            -Dsonar.java.binaries=target/classes \
+            -Dsonar.exclusions=**/target/**,**/*Test.java,**/*Tests.java
