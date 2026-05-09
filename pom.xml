@@ -22,15 +22,11 @@
         <sonar.sources>.</sonar.sources>
         <sonar.java.binaries>target/classes</sonar.java.binaries>
         
-        <!-- Coverage -->
-        <sonar.coverage.jacoco.xmlReportPaths>
-            target/site/jacoco/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
+        <!-- تحديد مسار التقرير بدقة -->
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         
-        <!-- Exclusions -->
-        <sonar.exclusions>
-            **/presentation_Layer/**,
-        </sonar.exclusions>
+        <!-- استثناءات التحليل -->
+        <sonar.exclusions>**/presentation_Layer/**</sonar.exclusions>
     </properties>
 
     <dependencies>
@@ -96,12 +92,22 @@
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
-                        <goals><goal>prepare-agent</goal></goals>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
                     </execution>
                     <execution>
                         <id>report</id>
                         <phase>verify</phase>
-                        <goals><goal>report</goal></goals>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <!-- تأكيد توليد ملف XML للسونار -->
+                        <configuration>
+                            <formats>
+                                <format>XML</format>
+                            </formats>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
