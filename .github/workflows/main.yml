@@ -32,7 +32,7 @@ jobs:
           EOF
 
       - name: Build, Test & Coverage
-        run: mvn -B verify jacoco:report --file pom.xml
+        run: mvn -B clean verify --file pom.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v2
@@ -43,9 +43,8 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.java.binaries=target/classes
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-            -Dsonar.exclusions=**/presentation_Layer/**,**/doc/**,**/docs/**,**/target/**,**/target/site/**,**/GenerateHash.java
+            -Dsonar.exclusions=**/presentation_Layer/**,**/target/**,**/doc/**,**/docs/**,**/GenerateHash.java
             -Dsonar.coverage.exclusions=**/src/test/java/**,**/presentation_Layer/**,**/presentation/**,**/connectDB/**,**/main/Main.java,**/service/ReminderService.java
-            -Dsonar.cpd.exclusions=**/src/test/java/**,**/presentation_Layer/**,**/presentation/**,**/doc/**,**/GenerateHash.java
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
