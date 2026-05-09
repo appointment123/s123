@@ -32,7 +32,7 @@ jobs:
           EOF
 
       - name: Build, Test & Coverage
-        run: mvn -B verify --file pom.xml
+        run: mvn -B verify jacoco:report --file pom.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v2
