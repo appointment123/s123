@@ -29,14 +29,7 @@
         
         <!-- Exclusions -->
         <sonar.exclusions>
-            **/target/**,
-            **/*Test.java,
-            **/*Tests.java,
-            **/test/**,
-            .github/**,
-            README*,
-            *.md,
-            **/node_modules/**
+            **/presentation_Layer/**,
         </sonar.exclusions>
     </properties>
 
