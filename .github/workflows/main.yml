@@ -24,6 +24,9 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
+      - name: List Directory Structure (للتشخيص)
+        run: ls -la && ls -la s123 || true
+
       - name: Create .env file
         run: |
           cat > .env << EOF
@@ -49,4 +52,4 @@ jobs:
             -Dsonar.coverage.exclusions=**/src/test/java/**,**/presentation_Layer/**,**/Persistence_Layer/**,**/Domain_Layer/**
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}00
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
