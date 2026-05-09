@@ -36,12 +36,11 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build and analyze
+      - name: Build and analyze with SonarQube
         env:
-          # هذا السطر سيعمل الآن لأن التوكن أصبح في Repository Secrets
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-          -Dsonar.projectKey=appointment123_s123 \
-          -Dsonar.organization=appointment123-1 \
-          -Dsonar.host.url=https://sonarcloud.io
+          mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=appointment123_s123 \
+            -Dsonar.organization=appointment123-1 \
+            -Dsonar.host.url=https://sonarcloud.io
