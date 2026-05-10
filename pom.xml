@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>appointment_scheduling3</groupId>
     <artifactId>appointment_scheduling3</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -23,7 +25,7 @@
         <sonar.tests>src/test/java</sonar.tests>
         <sonar.test.inclusions>**/*Test.java</sonar.test.inclusions>
 
-        <!-- Exclusions - أول 3 لايرات (حسب طلبك السابق) -->
+        <!-- Exclusions - أول 3 لايرات -->
         <sonar.coverage.exclusions>
             **/controller/**,
             **/rest/**,
@@ -81,11 +83,11 @@
                 </executions>
             </plugin>
 
-            <!-- Sonar -->
+            <!-- Sonar Maven Plugin - النسخة الصحيحة -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>4.0.0.2929</version>
+                <version>5.6.0.6792</version>
             </plugin>
         </plugins>
     </build>
